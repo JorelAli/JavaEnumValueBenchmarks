@@ -1,8 +1,11 @@
-import subprocess
 from tabulate import tabulate
+import subprocess
+from cpuinfo import get_cpu_info
 
 # Print the Java version
 subprocess.run(['java', '-version'], stdout=subprocess.PIPE)
+print()
+print('Running on', get_cpu_info()['brand_raw'], '(%s) @ %s' % (get_cpu_info()['arch'], get_cpu_info()['hz_actual_friendly']))
 print()
 
 # Compile everything...
@@ -36,4 +39,7 @@ for test in tests:
     print('Done!')
     results.append([test, total / iterations])
 
+print()
+print("Printing lovely test results report...")
+print()
 print(tabulate(results, floatfmt=",", headers=["Test", "Average time over " + str(iterations) + " in nanoseconds"], tablefmt="rounded_grid"))
