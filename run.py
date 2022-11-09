@@ -14,13 +14,17 @@ subprocess.run(['javac', '-cp', 'src/', '-d', 'bin/', 'src/*.java'], stdout=subp
 print("Done!")
 
 tests = [
+    'Control',
     'ForEachIterator',
     'ValueOf',
     'ValueOfSecondAccess',
     'PrecomputedArrayBinarySearch',
     'ComputedArrayBinarySearchStream',
     'ComputedArrayBinarySearchForLoop',
+    'PrecomputedArrayBinarySearchHashcodes',
+    'PrecomputedArrayBinarySearchHashcodes2',
     'PrecomputedSetOfStrings',
+    'PrecomputedSetOfHashCodes',
     'ComputedSetOfStringsStream',
     'ComputedSetOfStringsForEach',
     'PrecomputedEnumConstantDirectory',
@@ -29,9 +33,11 @@ tests = [
     'ComputedEnumConstantDirectoryMethodHandle2'
 ]
 
-iterations = 5
+iterations = 100
 
 results = []
+
+control_result = 0
 
 # Requires --add-opens runtime flag:
 # https://stackoverflow.com/questions/41265266/how-to-solve-inaccessibleobjectexception-unable-to-make-member-accessible-m
@@ -45,9 +51,13 @@ for test in tests:
         result = subprocess.run(['java', '--add-opens', 'java.base/java.lang=ALL-UNNAMED', '-cp', 'bin/', test, 'A3000'], stdout=subprocess.PIPE, shell=True)
         total += int(result.stdout.decode('utf-8'))
     print('Done!')
-    results.append([test, total / iterations])
+    if test == "Control":
+        control_result = total / iterations
+        results.append([test, -(total / iterations)])
+    else:
+        results.append([test, (total / iterations) - control_result])
 
 print()
 print("Printing lovely test results report...")
 print()
-print(tabulate(results, floatfmt=",", headers=["Test", "Average time over " + str(iterations) + " iterations in nanoseconds"], tablefmt="rounded_grid"))
+print(tabulate(results, floatfmt=",", headers=["Test", "Average time over " + str(iterations) + " iterations (in nanoseconds)"], tablefmt="rounded_grid"))
