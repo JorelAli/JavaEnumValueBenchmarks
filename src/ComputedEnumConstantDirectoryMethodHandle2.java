@@ -8,6 +8,12 @@ public class ComputedEnumConstantDirectoryMethodHandle2 {
 	public static void main(String[] args) {
 		final String input = args[0];
 
+		try {
+			BigEnum.valueOf(input);
+		} catch (IllegalArgumentException e) {
+			// Do nothing
+		}
+
 		MethodHandle mh = null;
 		try {
 			mh = MethodHandles.privateLookupIn(Class.class, MethodHandles.lookup()).findVirtual(Class.class, "enumConstantDirectory", MethodType.methodType(Map.class));

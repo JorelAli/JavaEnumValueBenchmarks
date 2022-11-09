@@ -29,6 +29,7 @@ tests = [
     'ComputedSetOfStringsForEach',
     'PrecomputedEnumConstantDirectory',
     'ComputedEnumConstantDirectory',
+    'ComputedEnumConstantDirectorySecondAccess',
     'ComputedEnumConstantDirectoryMethodHandle',
     'ComputedEnumConstantDirectoryMethodHandle2'
 ]
