@@ -2,7 +2,6 @@ public class ValueOfSecondAccess {
 
 	public static void main(String[] args) {
 		final String input = args[0];
-		final String firstAccess = args[1];
 
 		try {
 			BigEnum.valueOf(input);
