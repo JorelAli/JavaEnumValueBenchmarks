@@ -19,12 +19,24 @@ tests = [
     'ValueOfSecondAccess',
     'PrecomputedArrayBinarySearch',
     'ComputedArrayBinarySearchStream',
-    'ComputedArrayBinarySearchForLoop'
+    'ComputedArrayBinarySearchForLoop',
+    'PrecomputedSetOfStrings',
+    'ComputedSetOfStringsStream',
+    'ComputedSetOfStringsForEach',
+    'PrecomputedEnumConstantDirectory',
+    'ComputedEnumConstantDirectory',
+    'ComputedEnumConstantDirectoryMethodHandle',
+    'ComputedEnumConstantDirectoryMethodHandle2'
 ]
 
 iterations = 5
 
 results = []
+
+# Requires --add-opens runtime flag:
+# https://stackoverflow.com/questions/41265266/how-to-solve-inaccessibleobjectexception-unable-to-make-member-accessible-m
+# --add-opens has the following syntax: {A}/{package}={B}
+# java --add-opens java.base/java.lang=ALL-UNNAMED
 
 for test in tests:
     total = 0
@@ -32,9 +44,9 @@ for test in tests:
     for i in range(iterations):
         if test == 'ValueOfSecondAccess':
             # ValueOfSecondAccess has a second parameter...
-            result = subprocess.run(['java', '-cp', 'bin/', test, 'A3000', 'A3000'], stdout=subprocess.PIPE, shell=True)
+            result = subprocess.run(['java', '--add-opens', 'java.base/java.lang=ALL-UNNAMED', '-cp', 'bin/', test, 'A3000', 'A3000'], stdout=subprocess.PIPE, shell=True)
         else:
-            result = subprocess.run(['java', '-cp', 'bin/', test, 'A3000'], stdout=subprocess.PIPE, shell=True)
+            result = subprocess.run(['java', '--add-opens', 'java.base/java.lang=ALL-UNNAMED', '-cp', 'bin/', test, 'A3000'], stdout=subprocess.PIPE, shell=True)
         total += int(result.stdout.decode('utf-8'))
     print('Done!')
     results.append([test, total / iterations])
