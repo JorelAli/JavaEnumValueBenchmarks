@@ -11,7 +11,7 @@ A test suite to compare methods of checking if a value is valid in an enum.
 ## Setup
 
 ```sh
-pip -install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 -----
